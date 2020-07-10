@@ -2,89 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\MoneyRequest;
 use App\Notifications\MoneyRequestCanceld;
 use App\Notifications\MoneyRequestConfirmed;
-use Illuminate\Http\Request;
-use App\Rules\LimitRequestedMoney;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\NewMoneyRequestCreated;
+use App\Rules\LimitRequestedMoney;
+use App\Services\MoneyService;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class MoneyRequestController extends Controller
 {
+
+    private $moneyServie;
+
+    public function __construct(MoneyService $moneyService)
+    {
+        $this->moneyService = $moneyService;
+    }
+
     public function index()
     {
         return view('dashboard.money_requests.index',[
+
             'title'    => trans('software.money_requests'),
-            'requests' => MoneyRequest::with('user')->latest()->paginate(10), 
+            'requests' => $this->moneyService->getPaginatedRequests(), 
+            
         ]);
     }
 
     public function store(Request $request)
     {
-        $user = auth()->user();
-
-        $data = $request->validate([
-            'phone'        => 'required',
-            'money_needed' => ['required','numeric',new LimitRequestedMoney($user->commission)], 
-        ]);
-
-        $moneyRequest = $user->moneyRequests()->create($data);
-
-        Notification::send(User::admins()->get(),new NewMoneyRequestCreated($moneyRequest));
-
+        $this->moneyService->store($request,auth()->user());
         return back();
-
     }
 
     public function update(Request $request,MoneyRequest $moneyRequest )
     {
-        $data = $request->validate([
-
-            'phone'        => 'required',
-            'money_needed' => ['required','numeric',new LimitRequestedMoney(user()->commission)],
-
-        ]);
-
-        $moneyRequest->update($data);
-
-        return back();
         
-
-        
-    }
-
-    public function cancelRequest(MoneyRequest $moneyRequest)
-    {
-        $moneyRequest->update([
-
-            'is_canceld' => 1,
-            'canceld_at' => now(),
-        ]);
-
-        $moneyRequest->user->notify(new MoneyRequestCanceld());
-
+        $this->moneyService->update($request,$moneyRequest,auth()->user());
         return back();
+    
     }
 
-    public function confirmRequest(MoneyRequest $moneyRequest)
-    {
-        $moneyRequest->update([
-            'is_confirmed'   => 1,
-            'confirmed_at' => now(), 
-        ]);
-
-        $moneyRequest->user()->update([
-
-            'commission' => $moneyRequest->user->commission - $moneyRequest->money_needed,
-
-        ]);
-
-        $moneyRequest->user->notify(new MoneyRequestConfirmed());
-
-
-
-        return back();
-    }
+   
 }

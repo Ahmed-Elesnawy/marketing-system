@@ -14,4 +14,6 @@ interface UserRepositoryInterface
     public function update($user,$data);
 
     public function delete($user);
+
+    public function getAdmins();
 }

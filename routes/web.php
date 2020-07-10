@@ -96,8 +96,8 @@ Route::name('dashboard.')
         Route::post('money-requests','MoneyRequestController@store')->name('requests.store');
         Route::put('money-requests/{moneyRequest}','MoneyRequestController@update')->name('requests.update');
         Route::get('money-requests','MoneyRequestController@index')->name('requests.index')->middleware('admin');
-        Route::delete('money-requests/{moneyRequest}/cancel','MoneyRequestController@cancelRequest')->name('requests.cancel')->middleware('admin');
-        Route::put('money-requests/{moneyRequest}/confirm','MoneyRequestController@confirmRequest')->name('requests.confirm')->middleware('admin');
+        Route::delete('money-requests/{moneyRequest}/cancel','CancelConfirmMoneyController@cancelRequest')->name('requests.cancel')->middleware('admin');
+        Route::put('money-requests/{moneyRequest}/confirm','CancelConfirmMoneyController@confirmRequest')->name('requests.confirm')->middleware('admin');
 
 
 

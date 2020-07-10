@@ -32,6 +32,10 @@ class BackEndServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\Contracts\ProductRepositoryInterface',
         'App\Repositories\ProductRepository'
         );
+
+        $this->app->bind('App\Repositories\Contracts\MoneyRepositoryInterface',
+        'App\Repositories\MoneyRepository'
+        );
     }
 
     /**

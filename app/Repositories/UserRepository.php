@@ -15,4 +15,9 @@ class UserRepository extends AbstractRepo implements UserRepositoryInterface
     {
         $this->model = $model;
     }
+
+    public function getAdmins()
+    {
+    	return $this->model->admins()->get();
+    }
 }

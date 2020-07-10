@@ -56,7 +56,9 @@ class MessageController extends Controller
     public function destroy(Message $message)
     {
         $message->delete();
+
         toast()->success(trans('software.success_deleted'));
+        
         return back();
     }
 
