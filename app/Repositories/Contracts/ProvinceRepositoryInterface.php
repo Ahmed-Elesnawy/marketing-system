@@ -14,4 +14,6 @@ interface ProvinceRepositoryInterface
     public function update($category,$data);
 
     public function delete($category);
+
+    public function getProvinceChoices();
 }

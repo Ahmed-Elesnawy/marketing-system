@@ -3,18 +3,22 @@
 
 namespace App\Services;
 
-use Cart;
 use App\Repositories\Contracts\ProductRepositoryInterface;
+use App\Repositories\Contracts\ProvinceRepositoryInterface;
+use Cart;
 
 class CartService 
 {
 
     protected $productRepo;
 
+    protected $provinceRepo;
+
     public function __construct(ProductRepositoryInterface $productRepo)
     {
-        $this->productRepo = $productRepo;
+        $this->productRepo  = $productRepo;
     }
+
 
     public function addToCart($request,$product)
     {

@@ -70,7 +70,7 @@ class MoneyService
              
         ]);
 
-        event(new MoneyRequestConfirmedEvent($moneyRequest->user(),$moneyRequest->money_needed));
+        event(new MoneyRequestConfirmedEvent($moneyRequest->user,$moneyRequest->money_needed));
 
         $this->sendNotificationToMarkter($moneyRequest);
 
@@ -86,8 +86,10 @@ class MoneyService
     private function data($request,$user)
     {
         $data = $request->validate([
+
             'phone'        => 'required',
             'money_needed' => [new LimitRequestedMoney($user->commission)] 
+            
         ]);
 
         $data['user_id'] = $user->id;

@@ -17,5 +17,11 @@ class ProvinceRepository extends AbstractRepo implements ProvinceRepositoryInter
     }
 
 
+    public function getProvinceChoices()
+    {
+    	return $this->model->pluck('name','id');
+    }
+
+
    
 }

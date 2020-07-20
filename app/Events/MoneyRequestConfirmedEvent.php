@@ -16,9 +16,9 @@ class MoneyRequestConfirmedEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
-    protected $markter;
+    public $markter;
 
-    protected $moneyNeeded;
+    public $moneyNeeded;
 
 
 

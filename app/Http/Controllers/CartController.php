@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Cart;
 use App\Product;
 use App\Province;
-use Illuminate\Http\Request;
+use App\Repositories\Contracts\ProvinceRepositoryInterface;
 use App\Services\CartService;
+use Cart;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
 
-    private $cartService;
+    private $cartService,$provinceService;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService,ProvinceRepositoryInterface $provinceRepo)
     {
-        $this->cartService = $cartService;
+        $this->cartService     = $cartService;
+        $this->provinceRepo    = $provinceRepo;
     }
 
     
@@ -23,8 +25,10 @@ class CartController extends Controller
     {
         
         return view('dashboard.markters.cart',[
-            'title' => trans('software.cart'),
-            'provinces_choices' => Province::pluck('name','id'),
+
+            'title'             => trans('software.cart'),
+            'provinces_choices' => $this->provinceRepo->getProvinceChoices(),
+            
         ]);
 
     }
