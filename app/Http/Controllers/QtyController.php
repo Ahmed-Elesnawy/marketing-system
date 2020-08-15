@@ -12,6 +12,7 @@ class QtyController extends Controller
     {
        
        $order->products()->find($product->id)->pivot->update([
+
            'qty' => $order->products()->find($product->id)->pivot->qty +1,
        ]);
 
@@ -36,7 +37,7 @@ class QtyController extends Controller
 
        $order->update([
 
-           'total_price'     => $order->total_price - $order->products()->find($product->id)->pivot->price,
+           'total_price'      => $order->total_price - $order->products()->find($product->id)->pivot->price,
            'total_commission' => $order->total_commission - $order->products()->find($product->id)->pivot->commission
        ]);
 

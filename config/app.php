@@ -175,7 +175,6 @@ return [
            * Debuger Service Provider
            */
 
-         Barryvdh\Debugbar\ServiceProvider::class,
          
           /**
            * Yajra Service Provider
@@ -278,7 +277,6 @@ return [
          * My Packges Aliases
          */
 
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         /**
          * Intervention Image Alias
